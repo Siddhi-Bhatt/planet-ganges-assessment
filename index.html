@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leadership Assessment · Planet Ganges Consulting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-dark:   #1A1A2E;
+      --brand-mid:    #4A4A6A;
+      --brand-light:  #F5F4F0;
+      --accent:       #534AB7;
+      --accent-light: #EEEDFE;
+      --high-color:   #1D9E75;
+      --mid-color:    #BA7517;
+      --low-color:    #E24B4A;
+      --border:       #E0DED8;
+      --radius:       10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────────── */
+    .page-header {
+      background: var(--brand-dark);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-header .brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: #fff;
+      letter-spacing: 0.01em;
+    }
+    .page-header .brand span { color: #8888BB; font-size: 12px; display: block; font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Progress bar ───────────────────────────────────────────────────── */
+    .progress-wrap {
+      margin-bottom: 40px;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--brand-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ── Intro ──────────────────────────────────────────────────────────── */
+    .intro {
+      margin-bottom: 40px;
+    }
+    .intro h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 5vw, 38px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--brand-dark);
+      margin-bottom: 12px;
+    }
+    .intro p {
+      font-size: 15px;
+      color: var(--brand-mid);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ── Section cards ──────────────────────────────────────────────────── */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--brand-dark);
+    }
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--brand-mid);
+      margin-top: 2px;
+    }
+
+    /* ── Identity fields ────────────────────────────────────────────────── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--brand-dark);
+      background: var(--brand-light);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(83,74,183,0.12);
+      background: #fff;
+    }
+    .field input.error { border-color: var(--low-color); }
+
+    /* ── Question rows ──────────────────────────────────────────────────── */
+    .question {
+      margin-bottom: 28px;
+    }
+    .question:last-child { margin-bottom: 0; }
+
+    .question-text {
+      font-size: 14px;
+      color: var(--brand-dark);
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+    .question-num {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    /* Likert scale */
+    .likert {
+      display: flex;
+      gap: 8px;
+    }
+    @media (max-width: 480px) { .likert { gap: 4px; } }
+
+    .likert-option { flex: 1; position: relative; }
+    .likert-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .likert-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 10px 4px 8px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--brand-light);
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      user-select: none;
+    }
+    .likert-option label:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .likert-option input:checked + label {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .likert-option input:checked + label .likert-dot {
+      background: var(--accent);
+    }
+    .likert-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .likert-dot span {
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .likert-label {
+      font-size: 10px;
+      color: var(--brand-mid);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* End labels row */
+    .likert-ends {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+    .likert-ends span {
+      font-size: 10px;
+      color: var(--brand-mid);
+      font-style: italic;
+    }
+
+    /* ── Submit button ──────────────────────────────────────────────────── */
+    .submit-wrap { margin-top: 32px; text-align: center; }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 36px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(83,74,183,0.25);
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: #443EA0;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(83,74,183,0.35);
+    }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { opacity: 0.7; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Validation error banner ────────────────────────────────────────── */
+    .error-banner {
+      display: none;
+      background: #FCEBEB;
+      border: 1px solid #F09595;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: #A32D2D;
+      font-size: 13px;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .error-banner.visible { display: block; }
+
+    /* ── Results screen ─────────────────────────────────────────────────── */
+    #results-screen { display: none; }
+
+    .results-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .results-header .check-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #E1F5EE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .results-header .check-circle svg { width: 28px; height: 28px; stroke: var(--high-color); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .results-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .results-header p { font-size: 14px; color: var(--brand-mid); }
+
+    .email-notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      margin-bottom: 32px;
+    }
+    .email-notice.sent {
+      background: #E1F5EE;
+      color: #085041;
+      border: 1px solid #5DCAA5;
+    }
+    .email-notice.failed {
+      background: #FCEBEB;
+      color: #A32D2D;
+      border: 1px solid #F09595;
+    }
+    .email-notice svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+
+    /* Overall score card */
+    .overall-card {
+      background: var(--brand-dark);
+      border-radius: 14px;
+      padding: 28px;
+      color: #fff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .overall-card .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #8888BB;
+      margin-bottom: 6px;
+    }
+    .overall-card .score {
+      font-family: 'DM Serif Display', serif;
+      font-size: 40px;
+      line-height: 1;
+    }
+    .overall-card .score small { font-family: 'DM Sans', sans-serif; font-size: 18px; color: #8888BB; }
+    .overall-card .pct-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .overall-card .pct-circle .pct-num {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .overall-card .pct-circle .pct-label {
+      font-size: 10px;
+      color: #8888BB;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Dimension result cards */
+    .dim-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .dim-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .dim-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .band-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .band-badge.High   { background: #E1F5EE; color: #085041; }
+    .band-badge.Medium { background: #FAEEDA; color: #412402; }
+    .band-badge.Low    { background: #FCEBEB; color: #501313; }
+
+    .progress-bar-wrap {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+    .progress-bar-fill.High   { background: var(--high-color); }
+    .progress-bar-fill.Medium { background: var(--mid-color); }
+    .progress-bar-fill.Low    { background: var(--low-color); }
+
+    .dim-meta {
+      font-size: 12px;
+      color: var(--brand-mid);
+      margin-bottom: 14px;
+    }
+    .dim-feedback {
+      font-size: 13px;
+      color: var(--brand-mid);
+      line-height: 1.65;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border-left: 3px solid;
+    }
+    .dim-feedback.High   { background: #E1F5EE; border-color: var(--high-color); color: #085041; }
+    .dim-feedback.Medium { background: #FAEEDA; border-color: var(--mid-color);  color: #412402; }
+    .dim-feedback.Low    { background: #FCEBEB; border-color: var(--low-color);  color: #501313; }
+
+    /* ── Animations ─────────────────────────────────────────────────────── */
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stagger > * {
+      opacity: 0;
+      animation: fadeIn 0.45s ease forwards;
+    }
+    .stagger > *:nth-child(1) { animation-delay: 0.05s; }
+    .stagger > *:nth-child(2) { animation-delay: 0.15s; }
+    .stagger > *:nth-child(3) { animation-delay: 0.25s; }
+    .stagger > *:nth-child(4) { animation-delay: 0.35s; }
+    .stagger > *:nth-child(5) { animation-delay: 0.45s; }
+    .stagger > *:nth-child(6) { animation-delay: 0.55s; }
+
+    @media (max-width: 600px) {
+      main { padding: 32px 16px 60px; }
+      .section-card { padding: 20px 16px; }
+      .overall-card { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="brand">
+      Planet Ganges Consulting
+      <span>Leadership Assessment</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── FORM SCREEN ──────────────────────────────────────────────────── -->
+    <div id="form-screen">
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Your Progress</span>
+          <span id="progress-count">0 of 9 answered</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="intro">
+        <h1>How do you lead?</h1>
+        <p>This 9-question self-assessment evaluates three key leadership dimensions. Be honest — there are no right answers, only useful ones. Your personalised report will be emailed to you immediately.</p>
+      </div>
+
+      <form id="assessment-form" novalidate>
+
+        <!-- Identity -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div class="section-title">Your Details</div>
+              <div class="section-subtitle">Where we'll send your report</div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Jane Smith" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="jane@company.com" autocomplete="email" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Dimension 1: Decision-Making -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <div class="section-title">Decision-Making</div>
+              <div class="section-subtitle">How you form and commit to decisions</div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q1">
+            <div class="question-num">Question 1 of 9</div>
+            <div class="question-text">I gather the right amount of information before making decisions — neither overthinking nor acting prematurely.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q1" id="q1-1" value="1"><label for="q1-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q1" id="q1-2" value="2"><label for="q1-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q1" id="q1-3" value="3"><label for="q1-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q1" id="q1-4" value="4"><label for="q1-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q1" id="q1-5" value="5"><label for="q1-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q2">
+            <div class="question-num">Question 2 of 9</div>
+            <div class="question-text">When faced with uncertainty, I can commit to a decision and own the outcome — even if the situation later changes.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q2" id="q2-1" value="1"><label for="q2-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q2" id="q2-2" value="2"><label for="q2-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q2" id="q2-3" value="3"><label for="q2-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q2" id="q2-4" value="4"><label for="q2-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q2" id="q2-5" value="5"><label for="q2-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q3">
+            <div class="question-num">Question 3 of 9</div>
+            <div class="question-text">I actively seek input from people affected by a decision, and factor diverse perspectives into my choices.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q3" id="q3-1" value="1"><label for="q3-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q3" id="q3-2" value="2"><label for="q3-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q3" id="q3-3" value="3"><label for="q3-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q3" id="q3-4" value="4"><label for="q3-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q3" id="q3-5" value="5"><label for="q3-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dimension 2: Team Communication -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <div class="section-title">Team Communication</div>
+              <div class="section-subtitle">How you listen, share, and connect</div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q4">
+            <div class="question-num">Question 4 of 9</div>
+            <div class="question-text">I listen to understand, not just to respond — I can accurately summarise another person's point before sharing my own view.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q4" id="q4-1" value="1"><label for="q4-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q4" id="q4-2" value="2"><label for="q4-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q4" id="q4-3" value="3"><label for="q4-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q4" id="q4-4" value="4"><label for="q4-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q4" id="q4-5" value="5"><label for="q4-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q5">
+            <div class="question-num">Question 5 of 9</div>
+            <div class="question-text">I give feedback that is specific, timely, and focused on behaviour — not personality — and I deliver it directly rather than avoiding it.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q5" id="q5-1" value="1"><label for="q5-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q5" id="q5-2" value="2"><label for="q5-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q5" id="q5-3" value="3"><label for="q5-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q5" id="q5-4" value="4"><label for="q5-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q5" id="q5-5" value="5"><label for="q5-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q6">
+            <div class="question-num">Question 6 of 9</div>
+            <div class="question-text">In difficult conversations or conflict, I stay calm, name the issue clearly, and work toward resolution rather than avoiding or escalating.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q6" id="q6-1" value="1"><label for="q6-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q6" id="q6-2" value="2"><label for="q6-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q6" id="q6-3" value="3"><label for="q6-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q6" id="q6-4" value="4"><label for="q6-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q6" id="q6-5" value="5"><label for="q6-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dimension 3: Strategic Thinking -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="section-title">Strategic Thinking</div>
+              <div class="section-subtitle">How you connect today's work to long-term goals</div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q7">
+            <div class="question-num">Question 7 of 9</div>
+            <div class="question-text">I regularly connect my team's day-to-day work to the organisation's broader goals — and I make that link explicit when setting priorities.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q7" id="q7-1" value="1"><label for="q7-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q7" id="q7-2" value="2"><label for="q7-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q7" id="q7-3" value="3"><label for="q7-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q7" id="q7-4" value="4"><label for="q7-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q7" id="q7-5" value="5"><label for="q7-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q8">
+            <div class="question-num">Question 8 of 9</div>
+            <div class="question-text">I can identify patterns, risks, or opportunities before they become obvious — and I act on them rather than waiting for direction.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q8" id="q8-1" value="1"><label for="q8-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q8" id="q8-2" value="2"><label for="q8-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q8" id="q8-3" value="3"><label for="q8-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q8" id="q8-4" value="4"><label for="q8-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q8" id="q8-5" value="5"><label for="q8-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+
+          <div class="question" data-qid="q9">
+            <div class="question-num">Question 9 of 9</div>
+            <div class="question-text">When making trade-offs, I consistently prioritise what matters most for long-term success — even when it means saying no to urgent but lower-impact work.</div>
+            <div class="likert">
+              <div class="likert-option"><input type="radio" name="q9" id="q9-1" value="1"><label for="q9-1"><div class="likert-dot"><span>1</span></div><div class="likert-label">Strongly disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q9" id="q9-2" value="2"><label for="q9-2"><div class="likert-dot"><span>2</span></div><div class="likert-label">Disagree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q9" id="q9-3" value="3"><label for="q9-3"><div class="likert-dot"><span>3</span></div><div class="likert-label">Neutral</div></label></div>
+              <div class="likert-option"><input type="radio" name="q9" id="q9-4" value="4"><label for="q9-4"><div class="likert-dot"><span>4</span></div><div class="likert-label">Agree</div></label></div>
+              <div class="likert-option"><input type="radio" name="q9" id="q9-5" value="5"><label for="q9-5"><div class="likert-dot"><span>5</span></div><div class="likert-label">Strongly agree</div></label></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-wrap">
+          <button type="submit" class="btn-submit" id="submit-btn">
+            <div class="spinner"></div>
+            <span class="btn-text">Get my report →</span>
+          </button>
+          <div class="error-banner" id="error-banner" role="alert"></div>
+        </div>
+
+      </form>
+    </div><!-- /form-screen -->
+
+    <!-- ── RESULTS SCREEN ───────────────────────────────────────────────── -->
+    <div id="results-screen">
+      <div class="results-header fade-in">
+        <div class="check-circle">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Your Results</h2>
+        <p id="results-subtitle">Here's how you scored across the three leadership dimensions.</p>
+      </div>
+
+      <div id="email-notice" class="email-notice sent fade-in"></div>
+
+      <div class="stagger" id="results-content">
+        <!-- injected by JS -->
+      </div>
+    </div><!-- /results-screen -->
+
+  </main>
+
+  <script>
+    // ── Config ──────────────────────────────────────────────────────────────────
+    // Change this to your deployed backend URL before going live.
+    // In development: http://localhost:8000
+    const API_BASE = 'https://planet-ganges-assessment.onrender.com';
+
+
+    // ── Progress tracking ───────────────────────────────────────────────────────
+    const QUESTION_NAMES = ['q1','q2','q3','q4','q5','q6','q7','q8','q9'];
+
+    function answeredCount() {
+      return QUESTION_NAMES.filter(name =>
+        document.querySelector(`input[name="${name}"]:checked`)
+      ).length;
+    }
+
+    function updateProgress() {
+      const count = answeredCount();
+      const pct   = Math.round((count / QUESTION_NAMES.length) * 100);
+      document.getElementById('progress-fill').style.width  = pct + '%';
+      document.getElementById('progress-count').textContent = `${count} of 9 answered`;
+    }
+
+    document.querySelectorAll('.likert input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', updateProgress);
+    });
+
+    // ── Validation ──────────────────────────────────────────────────────────────
+    function validateForm() {
+      const errors = [];
+      const nameEl  = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+
+      // Reset error styles
+      [nameEl, emailEl].forEach(el => el.classList.remove('error'));
+
+      if (!nameEl.value.trim()) {
+        errors.push('Please enter your full name.');
+        nameEl.classList.add('error');
+      }
+
+      const emailVal = emailEl.value.trim();
+      const emailRe  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailVal) {
+        errors.push('Please enter your email address.');
+        emailEl.classList.add('error');
+      } else if (!emailRe.test(emailVal)) {
+        errors.push('Please enter a valid email address.');
+        emailEl.classList.add('error');
+      }
+
+      const unanswered = QUESTION_NAMES.filter(name =>
+        !document.querySelector(`input[name="${name}"]:checked`)
+      );
+      if (unanswered.length > 0) {
+        errors.push(`Please answer all 9 questions (${unanswered.length} remaining).`);
+        // Scroll to first unanswered
+        const first = document.querySelector(`[data-qid="${unanswered[0]}"]`);
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      return errors;
+    }
+
+    function showError(messages) {
+      const banner = document.getElementById('error-banner');
+      banner.innerHTML = messages.map(m => `<p style="margin:0 0 4px">⚠ ${m}</p>`).join('');
+      banner.classList.add('visible');
+    }
+
+    function clearError() {
+      const banner = document.getElementById('error-banner');
+      banner.classList.remove('visible');
+    }
+
+    // ── Form submission ─────────────────────────────────────────────────────────
+    let submitting = false;
+
+    document.getElementById('assessment-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (submitting) return;
+
+      clearError();
+      const errors = validateForm();
+      if (errors.length) { showError(errors); return; }
+
+      submitting = true;
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.classList.add('loading');
+      btn.querySelector('.btn-text').textContent = 'Sending…';
+
+      const payload = {
+        name:  document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+      };
+      QUESTION_NAMES.forEach(name => {
+        payload[name] = parseInt(
+          document.querySelector(`input[name="${name}"]:checked`).value
+        );
+      });
+
+      try {
+        const res = await fetch(`${API_BASE}/api/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          // Server returned a structured error
+          const detail = Array.isArray(data.detail)
+            ? data.detail.join(', ')
+            : (data.detail || 'Submission failed. Please try again.');
+          throw new Error(detail);
+        }
+
+        showResults(data);
+
+      } catch (err) {
+        const msg = err.message || 'Something went wrong. Please check your connection and try again.';
+        showError([msg]);
+        btn.disabled  = false;
+        btn.classList.remove('loading');
+        btn.querySelector('.btn-text').textContent = 'Get my report →';
+        submitting = false;
+      }
+    });
+
+    // ── Results rendering ───────────────────────────────────────────────────────
+    function showResults(data) {
+      document.getElementById('form-screen').style.display    = 'none';
+      document.getElementById('results-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Email notice
+      const notice = document.getElementById('email-notice');
+      if (data.email_sent) {
+        notice.className = 'email-notice sent fade-in';
+        notice.innerHTML = `
+          <svg viewBox="0 0 24 24" stroke="var(--high-color)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91A16 16 0 0 0 14 14l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Report sent to <strong>${escHtml(data.email || '')}</strong> — check your inbox (and spam folder, just in case).</span>
+        `;
+      } else {
+        notice.className = 'email-notice failed fade-in';
+        notice.innerHTML = `
+          <svg viewBox="0 0 24 24" stroke="var(--low-color)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Your scores are shown below, but we couldn't send the email (${escHtml(data.email_error || 'unknown error')}). Please screenshot this page for your records.</span>
+        `;
+      }
+
+      // Overall card
+      const scores = data.scores;
+      let html = `
+        <div class="overall-card">
+          <div>
+            <div class="label">Overall Score</div>
+            <div class="score">${scores.total_score} <small>/ ${scores.total_max}</small></div>
+          </div>
+          <div class="pct-circle">
+            <span class="pct-num">${scores.overall_percentage}%</span>
+            <span class="pct-label">overall</span>
+          </div>
+        </div>
+      `;
+
+      // Dimension cards
+      scores.dimensions.forEach(dim => {
+        html += `
+          <div class="dim-card">
+            <div class="dim-card-header">
+              <div class="dim-card-title">${escHtml(dim.label)}</div>
+              <span class="band-badge ${escHtml(dim.band)}">${escHtml(dim.band)}</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill ${escHtml(dim.band)}" style="width: ${dim.percentage}%"></div>
+            </div>
+            <div class="dim-meta">${dim.score} / ${dim.max_score} &nbsp;·&nbsp; ${dim.percentage}%</div>
+            <div class="dim-feedback ${escHtml(dim.band)}">${escHtml(dim.feedback)}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById('results-content').innerHTML = html;
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
+
+</body>
+</html>
